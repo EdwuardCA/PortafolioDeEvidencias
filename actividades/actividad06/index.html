@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad #6 — Calculadora de Conversión (HTML/CSS/JS) - Luis Edwuard Chay Ascorra</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: #111827;
+      --card: #0f172a;
+      --muted: #9aa4b2;
+      --text: #e5e7eb;
+      --primary: #3b82f6;
+      --primary-2: #1d4ed8;
+      --accent: #f59e0b;
+      --ok: #10b981;
+      --warn: #f59e0b;
+      --err: #ef4444;
+      --border: #1f2937;
+      --chip: #111827;
+      --good: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial;
+      background: linear-gradient(180deg, #0b1020, #0a0f1a);
+      color: var(--text)
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0f172a, #0b1220);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .35)
+    }
+
+    .header h1 {
+      margin: .2rem 0 0;
+      font-size: clamp(18px, 3vw, 28px)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      margin-top: 16px
+    }
+
+    @media (max-width:980px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden
+    }
+
+    .section {
+      padding: 16px
+    }
+
+    .badge {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      background: #0b1220;
+      border: 1px solid #1f2a41;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #b8c2d6;
+      font-size: 12px
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 10px
+    }
+
+    .meta .group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .meta label {
+      font-size: 12px;
+      color: #aab3c7
+    }
+
+    .meta input {
+      background: #0c1424;
+      color: var(--text);
+      border: 1px solid #1f2a41;
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none
+    }
+
+    .meta input:focus {
+      border-color: #2f4780;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, .15)
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid #21304f;
+      background: #0e1425;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600
+    }
+
+    .btn:hover {
+      border-color: #334a7a
+    }
+
+    .btn.primary {
+      background: #0f172a;
+      border-color: #2a4278;
+      color: #d7e5ff
+    }
+
+    .btn.ok {
+      background: #0f1a14;
+      border-color: #1f6f43;
+      color: #9ff0ca
+    }
+
+    .btn.warn {
+      background: #1d1506;
+      border-color: #925e13;
+      color: #ffd699
+    }
+
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 130px
+    }
+
+    .stat .label {
+      font-size: 12px;
+      color: #9aa3b8
+    }
+
+    .stat .value {
+      font-weight: 800;
+      font-size: 22px
+    }
+
+    .kbd {
+      background: #0f1320;
+      border: 1px solid #2a3142;
+      border-bottom-width: 3px;
+      padding: 0 6px;
+      border-radius: 6px;
+      font-size: 12px
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #2a3142;
+      background: #111626;
+      font-size: 12px;
+      color: #aeb6c9
+    }
+
+    textarea,
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      background: #0f1320;
+      color: var(--text);
+      border: 1px solid #2a3142;
+      border-radius: 12px;
+      padding: 12px 14px;
+      outline: none
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical
+    }
+
+    .block {
+      background: #0c1222;
+      border: 1px dashed #24304d;
+      border-radius: 12px;
+      padding: 12px;
+      color: #a9b4cc
+    }
+
+    .history {
+      max-height: 260px;
+      overflow: auto;
+      background: #0f1320;
+      border: 1px solid #2a3142;
+      border-radius: 12px;
+      padding: 10px
+    }
+
+    .item {
+      padding: 6px 8px;
+      border-bottom: 1px dashed #29324a
+    }
+
+    .no-history {
+      color: #7b8296
+    }
+
+    .card {
+      background: #0f1628;
+      border: 1px solid #23314f;
+      border-radius: 12px;
+      padding: 12px
+    }
+
+    label.inline {
+      font-size: 12px;
+      color: #9aa3b8;
+      margin-right: 8px
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 18px
+    }
+
+    .sep {
+      height: 1px;
+      background: #1f2a41;
+      margin: 10px 0
+    }
+
+    /* removed footer styles since footer removed */
+    .btn.ghost {
+      background: #121622;
+      border-color: #232a3e;
+      color: #c8d1e3
+    }
+
+    .btn.accent {
+      background: #1a1306;
+      border-color: #7a560f;
+      color: #ffd48a
+    }
+
+    .progress {
+      height: 10px;
+      background: #0f1320;
+      border: 1px solid #2a3142;
+      border-radius: 999px;
+      overflow: hidden
+    }
+
+    .progress .fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
+      transition: width .4s ease
+    }
+
+    @media (max-width:640px) {
+      .meta {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    .boton-regresar {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 10px 18px;
+      background: transparent;
+      border: 2px solid #ffffff;
+      border-radius: 10px;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      letter-spacing: 1px;
+      backdrop-filter: blur(6px);
+      transition: .25s;
+    }
+
+    .boton-regresar:hover {
+      background: #ffffff;
+      color: #000000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25);
+    }
+  </style>
+</head>
+
+<body>
+  <a href="../../index.html" class="boton-regresar">⬅ Volver al Menú Principal</a>
+  <div class="container">
+    <div class="header">
+      <span class="badge">Actividad #6 • HTML/CSS/JS </span>
+      <h1>Calculadora de Conversión: Lenguaje Natural ⇄ Expresión Algebraica + Módulo de Números Complejos</h1>
+      <div class="meta" id="meta">
+        <div class="group"><label>Institución</label><input id="inst" value="Tecnológico de Software" readonly></div>
+        <div class="group"><label>Materia</label><input id="materia" value="Fundamentos de Álgebra" readonly></div>
+        <div class="group"><label>Docente</label><input id="docente" value="Jorge Javier Pedroza Romero" readonly></div>
+        <div class="group"><label>Alumno</label><input id="alumno" value="Luis Edwuard Chay Ascorra" readonly></div>
+        <div class="group"><label>Grupo</label><input id="grupo" value="1A" readonly></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Columna izquierda: Conversores -->
+      <section class="panel section">
+        <h2>Conversores</h2>
+        <p class="block">Escribe y convierte entre lenguaje natural y expresión algebraica. Se validan entradas y se
+          registra tu historial.</p>
+
+        <div class="card" style="margin-top:10px">
+          <h3 style="margin:0 0 8px">Natural → Algebraico</h3>
+          <label class="inline">Ejemplo: <span class="kbd">la suma de a y b</span></label>
+          <textarea id="natural-input" placeholder="la suma de a y b"></textarea>
+          <div class="row" style="margin-top:8px">
+            <button class="btn primary" id="btn-n2a">Convertir a expresión</button>
+            <button class="btn" id="btn-n-clear">Limpiar</button>
+            <span class="pill">Soporta: + − × ÷ ^, variables {a,b,c...}</span>
+          </div>
+          <div class="sep"></div>
+          <label>Resultado:</label>
+          <input id="natural-output" type="text" readonly placeholder="a + b">
+          <div class="row" style="margin-top:6px">
+            <button class="btn ok" id="n-satisf">Satisfactorio</button>
+            <button class="btn warn" id="n-mejorar">Marcar para mejora</button>
+            <button class="btn" id="n-add">Agregar patrón</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3 style="margin:0 0 8px">Algebraico → Natural</h3>
+          <label class="inline">Ejemplo: <span class="kbd">x^2 + y^2</span></label>
+          <textarea id="alg-input" placeholder="x^2 + y^2"></textarea>
+          <div class="row" style="margin-top:8px">
+            <button class="btn primary" id="btn-a2n">Convertir a natural</button>
+            <button class="btn" id="btn-a-clear">Límpiame</button>
+            <span class="pill"><span class="kbd">*</span>→×, <span class="kbd">/</span>→÷, <span class="kbd">²</span>→^2
+              (se normaliza)</span>
+          </div>
+          <div class="sep"></div>
+          <label>Resultado:</label>
+          <input id="alg-output" type="text" readonly placeholder="la suma de los cuadrados de x y y">
+          <div class="row" style="margin-top:6px">
+            <button class="btn ok" id="a-satisf">Satisfactorio</button>
+            <button class="btn warn" id="a-mejorar">Mejorar</button>
+            <button class="btn" id="a-add">Agregar patrón</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3 style="margin:0 0 8px">Cargar/Restablecer Patrones (opcional)</h3>
+          <p class="muted" style="margin:0 0 8px">Pega JSON con <code>patterns:[...]</code> o usa los patrones por
+            defecto. No se usan imágenes.</p>
+          <textarea id="json-area"
+            placeholder='{"patterns":[{"id":1,"natural":"La suma de {a} y {b}","algebraic":"{a}+{b}"}]}'></textarea>
+          <div class="row" style="margin-top:8px">
+            <button class="btn" id="btn-load-json">Cargar desde JSON</button>
+            <button class="btn" id="btn-reset">Restablecer por defecto</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Columna derecha: Métricas + Complejos + Historial -->
+      <aside class="panel section">
+        <h2>Evaluación y Métricas</h2>
+        <div class="row">
+          <div class="stat"><span class="label">Patrones</span><span class="value" id="stat-pat">0</span></div>
+          <div class="stat"><span class="label">Conversiones</span><span class="value" id="stat-conv">0</span></div>
+          <div class="stat"><span class="label">Satisfactorias</span><span class="value" id="stat-sat">0</span></div>
+          <div class="stat"><span class="label">Puntaje</span><span class="value" id="stat-score">0</span></div>
+        </div>
+        <div class="progress" style="margin-top:10px">
+          <div class="fill" id="bar"></div>
+        </div>
+        <p class="muted" style="margin:8px 0 0">Sistema de calificación: +5 por conversión válida, +3 por marcar
+          “Satisfactorio”, −2 si entrada inválida.</p>
+
+        <div class="sep"></div>
+        <h2>Números Complejos (demostración)</h2>
+        <div class="card">
+          <label>Introduce un número complejo en forma a+bi (ej: 3-4i)</label>
+          <input id="cx-input" placeholder="a+bi">
+          <div class="row" style="margin-top:8px">
+            <button class="btn primary" id="btn-cx">Analizar</button>
+            <button class="btn" id="btn-cx-clear">Limpiar</button>
+          </div>
+          <div class="sep"></div>
+          <div id="cx-out" class="block">Clasificación, módulo, argumento y forma polar aparecerán aquí.</div>
+        </div>
+
+        <div class="sep"></div>
+        <h2>Historial</h2>
+        <div class="history" id="history">
+          <p class="no-history">No hay conversiones aún</p>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <button class="btn" id="btn-export">Exportar historial (JSON)</button>
+          <button class="btn" id="btn-clear-hist">Limpiar historial</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,357 @@
+/* ==============================
+      ESTILO PREMIUM GLOBAL
+     Portafolio DK Black & White
+=================================*/
+
+/* FUENTE MODERNA */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap');
+
+/* VARIABLES DE DISEÑO */
+:root {
+    --bg: #0a0a0a;
+    --card: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --text: #ffffff;
+    --muted: #cfcfcf;
+    --accent: #ffffff;
+    --accent-light: #e6e6e6;
+    --shadow: rgba(255, 255, 255, 0.15);
+    --radius: 18px;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+body {
+    background:
+        linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.75)),
+        url("../assets/Fondo.jpeg");
+    background-size: cover;
+    background-position: center 85%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 150vh;
+    color: var(--text);
+}
+
+/* ===========================
+        CONTENEDOR GLOBAL
+=========================== */
+.container {
+    max-width: 1300px;
+    margin: auto;
+    animation: fadeIn .8s ease-out both;
+}
+
+/* TITULO PRINCIPAL */
+.main-title {
+    font-size: clamp(42px, 5vw, 70px);
+    text-align: center;
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.35);
+}
+
+/* SUBTITULO */
+.subtitle {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 18px;
+    color: var(--muted);
+}
+
+/* ===========================
+      GRID DE ACTIVIDADES
+=========================== */
+.activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 26px;
+}
+
+/* ===========================
+          TARJETAS PRO
+=========================== */
+.activity-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    padding: 25px;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    transition: all .25s ease-in-out;
+}
+
+.activity-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: #ffffff;
+    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.12);
+}
+
+.activity-card h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.activity-card p {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* ===========================
+        BOTÓN PREMIUM DK
+=========================== */
+.btn-project {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    background: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    font-weight: 800;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .25s ease;
+    backdrop-filter: blur(4px);
+}
+
+.btn-project:hover {
+    background: #ffffff;
+    color: #000000;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25);
+}
+
+/* ===========================
+          FOOTER
+=========================== */
+.footer {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* ANIMACIÓN */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   ESTILO PREMIUM DK PARA LA ACTIVIDAD 02
+   (Adaptado al estilo global del Portafolio)
+===============================================*/
+
+/* CONTENEDOR GENERAL */
+.actividad-02 {
+    padding: 40px 0;
+}
+
+/* TITULO PRINCIPAL */
+.actividad-02 h1 {
+    font-size: clamp(42px, 5vw, 70px);
+    font-weight: 900;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 25px rgba(255,255,255,0.35);
+}
+
+/* SUBTÍTULO */
+.actividad-02 p {
+    color: #e0e0e0;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* SECCIONES PREMIUM (Cards estilo glass) */
+.actividad-02 section {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 28px;
+    margin-bottom: 45px;
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+}
+
+/* TITULOS DE SECCIÓN */
+.actividad-02 h2 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 14px;
+    color: #ffffff;
+}
+
+.actividad-02 h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+/* LABELS */
+.actividad-02 label {
+    color: #f0f0f0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* INPUTS PREMIUM */
+.actividad-02 input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 10px;
+    color: #ffffff;
+    outline: none;
+    margin: 8px 0 18px;
+    font-size: 15px;
+    backdrop-filter: blur(6px);
+    transition: .25s;
+}
+
+.actividad-02 input[type="text"]:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 15px rgba(255,255,255,0.35);
+}
+
+/* BOTONES PREMIUM DK */
+.actividad-02 button {
+    padding: 10px 20px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: .25s;
+    backdrop-filter: blur(6px);
+}
+
+.actividad-02 button:hover {
+    background: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255,255,255,0.25);
+}
+
+/* NUMEROS PREDEFINIDOS */
+.preset-numbers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.preset-btn {
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    transition: .25s;
+}
+
+.preset-btn:hover {
+    background: white;
+    color: black;
+    transform: translateY(-3px);
+}
+
+/* RECTA NUMÉRICA */
+.number-line {
+    height: 90px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.20);
+    border-radius: 12px;
+    position: relative;
+    backdrop-filter: blur(6px);
+}
+
+.tick-label,
+.point-label {
+    color: white !important;
+    font-weight: 700;
+}
+
+/* LISTA DE PUNTOS */
+.point-item {
+    background: rgba(255,255,255,0.10);
+    border-left: 4px solid #ffffff;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+
+/* SELECT PERSONALIZADO PREMIUM */
+.custom-select {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+}
+
+.select-selected,
+.select-items div {
+    color: white !important;
+}
+
+.select-items div:hover {
+    background: #ffffff;
+    color: black !important;
+}
+
+/* BOTÓN DE DISTANCIA */
+.distance-btn {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255,255,255,0.20);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    border: 2px solid white;
+    color: white;
+    font-weight: 900;
+    transition: .25s;
+}
+
+.distance-btn:hover {
+    background: white;
+    color: black;
+}
+
+/* RESULTADOS */
+.distance-result {
+    background: rgba(255,255,255,0.22);
+    padding: 18px;
+    border-radius: 14px;
+    text-align: center;
+    border: 1px solid white;
+    color: white;
+    backdrop-filter: blur(6px);
+}
+
+/* GRID */
+.info-panels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}

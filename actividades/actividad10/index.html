@@ -1,0 +1,433 @@
+<!-- Estructura básica del documento HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Productos Notables</title>
+<style>
+/* ====== DK Elite Dark Theme (rojo + negro) ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Paleta y tokens de diseño */
+:root{
+  --primary-color:#ef4444;      /* rojo principal */
+  --secondary-color:#7f1d1d;    /* rojo quemado */
+  --accent-color:#f87171;       /* rojo claro/acento */
+  --success-color:#22c55e;      /* verde para verificación correcta */
+  --danger-color:#ef4444;       /* rojo para errores */
+  --background:#0b0b0f;         /* fondo global */
+  --card-background:#141416;    /* tarjetas y contenedores */
+  --text-primary:#e5e7eb;       /* texto principal */
+  --text-secondary:#9ca3af;     /* texto secundario */
+  --border-color:#27272a;       /* bordes sutiles */
+  --shadow:0 8px 24px rgba(0,0,0,.5);
+  --shadow-lg:0 20px 40px rgba(0,0,0,.6);
+  --glow:0 0 0 transparent;
+}
+
+/* Fondo con textura sutil + gradiente animado */
+body{
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 10% -20%, rgba(239,68,68,.12), transparent 60%),
+    radial-gradient(900px 500px at 110% 120%, rgba(127,29,29,.15), transparent 60%),
+    #0b0b0f;
+  color:var(--text-primary);
+  line-height:1.6;
+}
+
+/* contenedor */
+.container{ max-width:1200px; margin:0 auto; padding:20px; }
+
+/* ====== Header ====== */
+header{
+  position:relative;
+  text-align:center;
+  padding:48px 20px;
+  background:linear-gradient(135deg, #200, #400),
+             radial-gradient(800px 400px at 50% 0%, rgba(239,68,68,.25), transparent 60%);
+  border:1px solid #3f1313;
+  color:#fff;
+  border-radius:16px;
+  margin-bottom:30px;
+  box-shadow:var(--shadow-lg);
+  overflow:hidden;
+}
+
+/* brillo animado diagonal */
+header::after{
+  content:"";
+  position:absolute; inset:-40%;
+  background:conic-gradient(from 0deg, transparent 0 60%, rgba(248,113,113,.18) 60% 62%, transparent 62% 100%);
+  animation:spinGlow 14s linear infinite;
+  filter:blur(40px);
+  pointer-events:none;
+}
+
+header h1{ font-size:2.6rem; margin-bottom:10px; font-weight:800; letter-spacing:.5px; }
+.subtitle{ font-size:1.05rem; opacity:.9; color:#ffdada; }
+
+/* ====== Main layout ====== */
+main{ display:flex; flex-direction:column; gap:30px; }
+
+/* ====== Controls ====== */
+.controls{
+  background:var(--card-background);
+  padding:28px;
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border-color);
+  backdrop-filter:saturate(120%) blur(2px);
+  animation:fadeUp .5s ease-out both;
+}
+
+.form-group{ margin-bottom:20px; }
+
+.form-group label{
+  display:block; font-weight:700; margin-bottom:8px; color:var(--text-primary); letter-spacing:.2px;
+}
+
+.input-hint{
+  display:block; font-size:.85rem; color:var(--text-secondary); margin-top:6px; font-style:italic;
+}
+
+.input-field{
+  width:100%; padding:12px 16px; border:2px solid var(--border-color);
+  border-radius:10px; font-size:1rem; color:var(--text-primary);
+  background:#0f0f12; transition:border-color .25s ease, box-shadow .25s ease, transform .2s ease;
+  outline:none;
+}
+
+.input-field::placeholder{ color:#6b7280; }
+.input-field:focus{
+  border-color:var(--primary-color);
+  box-shadow:0 0 0 4px rgba(239,68,68,.15), 0 0 24px rgba(239,68,68,.2);
+  transform:translateY(-1px);
+}
+
+.inputs-container{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:18px; margin-bottom:8px;
+}
+
+/* Botón principal */
+.btn-primary{
+  width:100%; padding:14px 24px; background:linear-gradient(180deg, #ef4444, #b91c1c);
+  color:white; border:none; border-radius:12px; font-size:1.1rem; font-weight:800; letter-spacing:.3px;
+  cursor:pointer; transition:transform .15s ease, box-shadow .2s ease, filter .2s ease;
+  box-shadow:0 10px 24px rgba(239,68,68,.25);
+  position:relative; overflow:hidden;
+}
+.btn-primary::after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(400px 120px at var(--mx,50%) var(--my,50%), rgba(255,255,255,.12), transparent 60%);
+  opacity:0; transition:opacity .2s ease;
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 18px 36px rgba(239,68,68,.35);
+}
+.btn-primary:hover::after{ opacity:1; }
+.btn-primary:active{ transform:translateY(0); filter:brightness(.98); }
+
+/* ====== Resultados ====== */
+.results{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px;
+}
+
+.result-card{
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.0)) , var(--card-background);
+  padding:22px; border-radius:14px; box-shadow:var(--shadow);
+  border:1px solid var(--border-color);
+  position:relative; overflow:hidden;
+  animation:fadeUp .5s ease-out both;
+}
+
+/* borde lateral con glow */
+.result-card::before{
+  content:""; position:absolute; left:-2px; top:10%; bottom:10%; width:4px;
+  background:linear-gradient(180deg, transparent, var(--primary-color), transparent);
+  filter:drop-shadow(0 0 10px rgba(239,68,68,.5));
+  border-radius:4px;
+}
+
+/* títulos */
+.result-card h2{ font-size:1.1rem; margin-bottom:14px; color:#ffdada; letter-spacing:.3px; }
+
+/* chips de expresión / resultados */
+.expression{
+  font-size:1.25rem; font-weight:700; color:#ff9c9c;
+  padding:14px; background:rgba(239,68,68,.08);
+  border:1px solid rgba(239,68,68,.35); border-radius:10px; text-align:center;
+  box-shadow:inset 0 0 24px rgba(239,68,68,.08);
+}
+
+.formula{
+  font-size:1.05rem; font-family:'Courier New', monospace; padding:14px;
+  background:#0f0f12; border-radius:10px; color:var(--text-primary);
+  border:1px dashed #3a3a3f;
+}
+
+.steps{ font-size:1rem; line-height:1.8; color:var(--text-secondary); }
+.steps div{
+  padding:8px 0; border-bottom:1px dashed #2b2b30;
+  animation:slideIn .45s ease both;
+}
+.steps div:last-child{ border-bottom:none; }
+
+.expression-result{
+  font-size:1.3rem; font-weight:800; color:#fca5a5;
+  padding:16px; background:rgba(239,68,68,.07);
+  border:1px solid rgba(239,68,68,.35); border-radius:10px; text-align:center;
+}
+
+.numeric-result{
+  font-size:1.8rem; font-weight:900; color:#ffffff;
+  padding:20px; background:linear-gradient(135deg, rgba(239,68,68,.08), rgba(127,29,29,.18));
+  border:1px solid #3f1313; border-radius:12px; text-align:center;
+  box-shadow:inset 0 0 40px rgba(239,68,68,.08);
+}
+
+/* Verificación */
+.verification{
+  font-size:1rem; padding:14px; border-radius:10px; border:1px solid #333;
+  background:#0f0f12; color:var(--text-primary);
+}
+.verification.correcto{
+  background:linear-gradient(180deg, rgba(34,197,94,.1), rgba(34,197,94,.05));
+  color:#86efac; border-color:rgba(34,197,94,.35);
+}
+.verification.incorrecto{
+  background:linear-gradient(180deg, rgba(239,68,68,.12), rgba(239,68,68,.06));
+  color:#fca5a5; border-color:rgba(239,68,68,.35);
+}
+
+/* ====== Visualización (Canvas) ====== */
+.visualization{
+  background:var(--card-background); padding:28px; border-radius:14px;
+  box-shadow:var(--shadow); border:1px solid var(--border-color); text-align:center;
+  animation:fadeUp .5s ease-out both .05s;
+}
+.visualization h2{ font-size:1.4rem; margin-bottom:16px; color:#ffdada; }
+
+#canvas-geometrico{
+  border:2px solid #3f1313; border-radius:10px; margin:18px auto; display:block;
+  background:#0a0a0c;
+  box-shadow:0 0 0 4px rgba(239,68,68,.06), inset 0 0 24px rgba(0,0,0,.6);
+}
+
+.geo-description{ color:var(--text-secondary); font-size:1rem; margin-top:12px; font-style:italic; }
+
+/* ====== Historial ====== */
+.historial-container{
+  background:var(--card-background); padding:28px; border-radius:14px;
+  box-shadow:var(--shadow); border:1px solid var(--border-color);
+  animation:fadeUp .5s ease-out both .1s;
+}
+
+.historial-header{
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;
+}
+.historial-header h2{ font-size:1.4rem; color:#ffdada; }
+
+.btn-secondary{
+  padding:10px 16px; background:linear-gradient(180deg, #991b1b, #7f1d1d);
+  color:white; border:none; border-radius:10px; font-size:.95rem; cursor:pointer;
+  transition:transform .15s ease, box-shadow .2s ease, filter .2s ease;
+  box-shadow:0 8px 22px rgba(127,29,29,.35);
+}
+.btn-secondary:hover{ transform:translateY(-2px); box-shadow:0 14px 28px rgba(127,29,29,.45); }
+.btn-secondary:active{ transform:translateY(0); filter:brightness(.98); }
+
+.historial{
+  display:flex; flex-direction:column; gap:12px;
+}
+
+.historial-item{
+  padding:14px; background:#0f0f12; border-radius:10px; border-left:4px solid var(--accent-color);
+  border:1px solid #2b2b30; color:var(--text-primary);
+  animation:fadeUp .4s ease-out both;
+}
+.historial-item strong{ color:#ffb4b4; }
+
+.historial-vacio{
+  text-align:center; color:var(--text-secondary); padding:36px; font-style:italic;
+}
+
+/* ====== Footer ====== */
+footer{
+  text-align:center; padding:28px; margin-top:34px; color:var(--text-secondary);
+  border-top:1px solid var(--border-color);
+}
+
+/* ====== Responsivo ====== */
+@media (max-width:768px){
+  header h1{ font-size:2.1rem; }
+  .results{ grid-template-columns:1fr; }
+  .inputs-container{ grid-template-columns:1fr; }
+  .historial-header{ flex-direction:column; gap:12px; align-items:flex-start; }
+  .btn-secondary{ width:100%; }
+}
+
+/* ====== Animaciones ====== */
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(12px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+@keyframes slideIn{
+  from{ opacity:0; transform:translateX(-8px); }
+  to{ opacity:1; transform:translateX(0); }
+}
+
+@keyframes spinGlow{
+  to{ transform:rotate(360deg); }
+}
+
+/* Respeto a usuarios con reduce-motion */
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+}
+
+/* Efecto de “spotlight” del mouse en el botón principal (sin JS extra) */
+.btn-primary:hover{
+  --mx:50%;
+  --my:50%;
+}
+
+.boton-regresar {
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    backdrop-filter: blur(6px);
+    transition: .25s;
+}
+
+.boton-regresar:hover {
+    background: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255,255,255,0.25);
+}
+
+</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+</head>
+<body>
+<a href="../../index.html" class="boton-regresar">⬅ Volver al Menú Principal</a>
+
+   
+<div class="container">
+        <header>
+            <h1>Calculadora de Productos Notables</h1>
+            <p class="subtitle">Actividad #10 - Unidad II</p>
+            <p class="subtitle">Alumno: Luis Edwuard Chay Ascorra - Grupo: 1A  -  Profesor: Jorge Javier Pedroza Romero</p>
+        </header>
+
+        <main>
+            <section class="controls">
+                <div class="form-group">
+                    <label for="modo">Modo de Cálculo:</label>
+                    <select id="modo" class="input-field">
+                        <option value="numerico">Numérico (solo números)</option>
+                        <option value="algebraico">Algebraico (con variables)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo de Producto Notable:</label>
+                    <select id="tipo" class="input-field">
+                        <option value="binomio-cuadrado-suma">Binomio al Cuadrado (a + b)²</option>
+                        <option value="binomio-cuadrado-resta">Binomio al Cuadrado (a - b)²</option>
+                        <option value="binomio-cubo-suma">Binomio al Cubo (a + b)³</option>
+                        <option value="binomio-cubo-resta">Binomio al Cubo (a - b)³</option>
+                        <option value="termino-comun">Término Común (x + a)(x + b)</option>
+                        <option value="conjugados">Binomios Conjugados (a + b)(a - b)</option>
+                    </select>
+                </div>
+
+                <div class="inputs-container">
+                    <div class="form-group">
+                        <label for="valor-a">Valor de a:</label>
+                        <input type="text" id="valor-a" class="input-field" value="3" placeholder="Ej: 3 o 3x">
+                        <small class="input-hint">Numérico: 3 | Algebraico: 3x, 5y</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valor-b">Valor de b:</label>
+                        <input type="text" id="valor-b" class="input-field" value="2" placeholder="Ej: 2 o 5y">
+                        <small class="input-hint">Numérico: 2 | Algebraico: 5y, 2z</small>
+                    </div>
+                </div>
+
+                <button id="calcular" class="btn-primary">Calcular</button>
+            </section>
+
+            <section class="results">
+                <div class="result-card">
+                    <h2>Expresión Original</h2>
+                    <div id="expresion-original" class="expression">-</div>
+                </div>
+
+                <div class="result-card">
+                    <h2>Fórmula Aplicada</h2>
+                    <div id="formula" class="formula">-</div>
+                </div>
+
+                <div class="result-card">
+                    <h2>Desarrollo Paso a Paso</h2>
+                    <div id="desarrollo" class="steps">-</div>
+                </div>
+
+                <div class="result-card">
+                    <h2>Forma Expandida</h2>
+                    <div id="expandida" class="expression-result">-</div>
+                </div>
+
+                <div class="result-card">
+                    <h2>Resultado Numérico</h2>
+                    <div id="resultado-numerico" class="numeric-result">-</div>
+                </div>
+
+                <div class="result-card">
+                    <h2>Verificación</h2>
+                    <div id="verificacion" class="verification">-</div>
+                </div>
+            </section>
+
+            <section class="visualization">
+                <h2>Representación Geométrica</h2>
+                <canvas id="canvas-geometrico" width="400" height="400"></canvas>
+                <p id="descripcion-geometrica" class="geo-description"></p>
+            </section>
+
+            <section class="historial-container">
+                <div class="historial-header">
+                    <h2>Historial de Cálculos</h2>
+                    <button id="limpiar-historial" class="btn-secondary">Limpiar</button>
+                </div>
+                <div id="historial" class="historial"></div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 - Fundamentos de Álgebra - TSU en Desarrollo de Software - Tecnologico de Software</p>
+			<p>Modificado por Dk Elite - Edwuard</p>
+        </footer>
+    </div>
+<script src="script.js"></script>
+
+</body>
+</html>

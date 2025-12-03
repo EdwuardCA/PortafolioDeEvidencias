@@ -1,0 +1,515 @@
+<!-- Estructura básica del documento HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>División sintética</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0d0d0d;
+    color: #e6e6e6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.container {
+    background: #1b1b1b;
+    border-radius: 10px;
+    padding: 40px;
+    max-width: 850px;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+}
+
+h1 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.9em;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #aaaaaa;
+    margin-bottom: 25px;
+    font-size: 0.9em;
+}
+
+label {
+    display: block;
+    color: #e6e6e6;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background: #111;
+    color: #e6e6e6;
+    font-size: 1em;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #0099ff;
+    background: #141414;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background: #ff8c00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: #e67e00;
+    transform: scale(1.02);
+}
+
+button:active {
+    transform: scale(0.98);
+    background: #cc6f00;
+}
+
+.result-section {
+    background: #121212;
+    border: 1px solid #222;
+    border-radius: 6px;
+    margin-top: 30px;
+    padding: 20px;
+    display: none;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.result-section.show {
+    display: block;
+}
+
+.result-title {
+    color: #ff8c00;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.process-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: #1a1a1a;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.process-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #333;
+    color: #e6e6e6;
+}
+
+.process-table tr:first-child td {
+    background: #222;
+    color: #ff8c00;
+    font-weight: 600;
+}
+
+.divisor-cell {
+    background: #181818;
+    color: #ff8c00;
+    font-weight: 600;
+}
+
+.final-result {
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #333;
+}
+
+.final-result p {
+    margin: 8px 0;
+    color: #e6e6e6;
+}
+
+.error {
+    background: #3b0000;
+    color: #ff7b7b;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #660000;
+}
+
+.example {
+    background: #181818;
+    border: 1px solid #333;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.85em;
+    color: #cccccc;
+	margin-bottom: 50px;
+}
+
+.help-text {
+    color: #999;
+    font-size: 0.85em;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.boton-regresar {
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    backdrop-filter: blur(6px);
+    transition: .25s;
+}
+
+.boton-regresar:hover {
+    background: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255,255,255,0.25);
+}
+
+</style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+</head>
+<body>
+<a href="../../index.html" class="boton-regresar">⬅ Volver al Menú Principal</a>
+
+<div class="container">
+<header>
+    <h1>División Sintética de Polinomios</h1>
+    <p class="subtitle">Soporta coeficientes y raíces reales y complejas</p>
+	<p class="subtitle">Actividad #12 - Unidad II</p>
+    <p class="subtitle">Alumno: Luis Edwuard Chay Ascorra - Grupo: 1A  -  Profesor: Jorge Javier Pedroza Romero</p>
+</header>
+	
+
+    <div class="input-section">
+        <label for="polinomio">Polinomio:</label>
+        <input type="text" id="polinomio" placeholder="Ejemplo: 5x^3 + 3x^2 + 2x + 1 o x^2 - 6x + 11">
+        <p class="help-text">Ingresa el polinomio con formato algebraico</p>
+        <div class="example">
+            <strong>Ejemplos:</strong><br>
+            • 5x^3 + 3x^2 + 2x + 1<br>
+            • x^3 - 6x^2 + 11x - 6<br>
+            • 2x^2 + (3+2i)x + 1<br>
+            • x^4 - 1
+        </div>
+    </div>
+
+    <div class="input-section">
+        <label for="raiz">Raíz (divisor):</label>
+        <input type="text" id="raiz" placeholder="Ejemplo: 2 o 1+i">
+        <p class="help-text">Ingresa el valor de la raíz (puede ser complejo)</p>
+        <div class="example">
+            <strong>Ejemplos:</strong> 2, -3, 1+i, 2-3i
+        </div>
+    </div>
+
+    <button onclick="calcularDivision()">Calcular División Sintética</button>
+
+    <div id="resultado" class="result-section"></div>
+        
+</div>
+
+<script>
+// Clase para manejar números complejos
+class NumeroComplejo {
+    constructor(real, imag = 0) {
+        this.real = real;
+        this.imag = imag;
+    }
+
+    sumar(otro) {
+        return new NumeroComplejo(
+            this.real + otro.real,
+            this.imag + otro.imag
+        );
+    }
+
+    multiplicar(otro) {
+        return new NumeroComplejo(
+            this.real * otro.real - this.imag * otro.imag,
+            this.real * otro.imag + this.imag * otro.real
+        );
+    }
+
+    toString() {
+        if (this.imag === 0) {
+            return this.real.toFixed(4).replace(/\.?0+$/, '');
+        }
+        
+        const realStr = this.real.toFixed(4).replace(/\.?0+$/, '');
+        const imagStr = Math.abs(this.imag).toFixed(4).replace(/\.?0+$/, '');
+        
+        if (this.real === 0) {
+            return `${imagStr}i`;
+        }
+        
+        const signo = this.imag >= 0 ? '+' : '-';
+        return `${realStr}${signo}${imagStr}i`;
+    }
+
+    esReal() {
+        return Math.abs(this.imag) < 1e-10;
+    }
+}
+
+// Función para parsear un polinomio en formato algebraico
+function parsearPolinomio(str) {
+    str = str.trim().replace(/\s/g, '');
+    
+    // Encontrar el grado máximo
+    const gradoMatch = str.match(/x\^(\d+)/g);
+    let gradoMax = 1;
+    
+    if (gradoMatch) {
+        gradoMax = Math.max(...gradoMatch.map(m => parseInt(m.match(/\d+/)[0])));
+    } else if (str.includes('x')) {
+        gradoMax = 1;
+    } else {
+        gradoMax = 0;
+    }
+    
+    // Inicializar array de coeficientes con ceros
+    const coeficientes = new Array(gradoMax + 1).fill(null).map(() => new NumeroComplejo(0));
+    
+    // Reemplazar términos implícitos
+    str = str.replace(/([+-])\s*x/g, '$1 1x');
+    str = str.replace(/^x/, '1x');
+    
+    // Extraer términos
+    const terminos = str.match(/[+-]?[^+-]+/g) || [];
+    
+    for (let termino of terminos) {
+        termino = termino.trim();
+        
+        if (!termino) continue;
+        
+        let coef, grado;
+        
+        if (!termino.includes('x')) {
+            // Término independiente
+            coef = parsearComplejo(termino);
+            grado = 0;
+        } else if (termino.includes('x^')) {
+            // Término con exponente explícito
+            const partes = termino.split('x^');
+            coef = partes[0] === '' || partes[0] === '+' ? new NumeroComplejo(1) : 
+                   partes[0] === '-' ? new NumeroComplejo(-1) : 
+                   parsearComplejo(partes[0]);
+            grado = parseInt(partes[1]);
+        } else {
+            // Término con x (grado 1)
+            const partes = termino.split('x');
+            coef = partes[0] === '' || partes[0] === '+' ? new NumeroComplejo(1) : 
+                   partes[0] === '-' ? new NumeroComplejo(-1) : 
+                   parsearComplejo(partes[0]);
+            grado = 1;
+        }
+        
+        const indice = gradoMax - grado;
+        coeficientes[indice] = coeficientes[indice].sumar(coef);
+    }
+    
+    return coeficientes;
+}
+
+// Función para parsear números complejos
+function parsearComplejo(str) {
+    str = str.trim().replace(/\s/g, '');
+    
+    if (!str.includes('i')) {
+        return new NumeroComplejo(parseFloat(str));
+    }
+
+    str = str.replace(/i/g, '');
+    
+    let real = 0;
+    let imag = 0;
+
+    const regex = /([+-]?\d*\.?\d+)([+-]\d*\.?\d+)?/;
+    const match = str.match(regex);
+
+    if (match) {
+        if (str.indexOf('+') > 0 || (str.indexOf('-') > 0 && str.indexOf('-') !== 0)) {
+            const partes = str.split(/(?=[+-])/);
+            real = parseFloat(partes[0]) || 0;
+            imag = parseFloat(partes[1]) || 1;
+        } else {
+            imag = parseFloat(str) || 1;
+        }
+    }
+
+    return new NumeroComplejo(real, imag);
+}
+
+// Función principal para calcular la división
+function calcularDivision() {
+    try {
+        const polinomioStr = document.getElementById('polinomio').value;
+        const raizStr = document.getElementById('raiz').value;
+
+        if (!polinomioStr || !raizStr) {
+            throw new Error('Por favor ingresa todos los datos');
+        }
+
+        const coeficientes = parsearPolinomio(polinomioStr);
+        const raiz = parsearComplejo(raizStr);
+
+        const resultado = divisionSintetica(coeficientes, raiz);
+        mostrarResultado(resultado, coeficientes, raiz, polinomioStr);
+
+    } catch (error) {
+        document.getElementById('resultado').innerHTML = `
+            <div class="error">
+                <strong>Error:</strong> ${error.message}
+            </div>
+        `;
+        document.getElementById('resultado').classList.add('show');
+    }
+}
+
+// Algoritmo de división sintética
+function divisionSintetica(coeficientes, raiz) {
+    const n = coeficientes.length;
+    const proceso = [];
+    const resultado = [];
+
+    proceso.push([...coeficientes]);
+    proceso.push([new NumeroComplejo(0)]);
+    
+    resultado.push(coeficientes[0]);
+    
+    for (let i = 1; i < n; i++) {
+        const producto = resultado[i - 1].multiplicar(raiz);
+        proceso[1].push(producto);
+        resultado.push(coeficientes[i].sumar(producto));
+    }
+
+    const cociente = resultado.slice(0, -1);
+    const residuo = resultado[resultado.length - 1];
+
+    return {
+        proceso: proceso,
+        resultado: resultado,
+        cociente: cociente,
+        residuo: residuo
+    };
+}
+
+// Función para mostrar el resultado en HTML
+function mostrarResultado(resultado, coeficientes, raiz, polinomioOriginal) {
+    let html = '<div class="result-title">Polinomio Original</div>';
+    html += `
+        <div style="
+            text-align: center; 
+            font-size: 1.2em; 
+            margin-bottom: 20px; 
+            padding: 15px; 
+            background: #181818; 
+            color: #ff8c00;
+            border: 1px solid #333; 
+            border-radius: 5px;">
+            <strong>${polinomioOriginal}</strong>
+        </div>
+    `;
+
+    html += '<div class="result-title">Coeficientes Extraídos</div>';
+    html += '<table class="process-table" style="margin-bottom: 30px;">';
+    html += '<tr>';
+    for (let i = 0; i < coeficientes.length; i++) {
+        const exp = coeficientes.length - 1 - i;
+        html += '<td><strong>';
+        if (exp === 0) html += 'Término independiente';
+        else if (exp === 1) html += 'x';
+        else html += 'x<sup>' + exp + '</sup>';
+        html += '</strong></td>';
+    }
+    html += '</tr><tr>';
+    coeficientes.forEach(c => html += '<td>' + c.toString() + '</td>');
+    html += '</tr></table>';
+
+    html += '<div class="result-title">Proceso de División Sintética</div>';
+    html += '<table class="process-table">';
+    html += '<tr><td class="divisor-cell">Divisor: ' + raiz.toString() + '</td>';
+    coeficientes.forEach(c => html += '<td>' + c.toString() + '</td>');
+    html += '</tr><tr><td class="divisor-cell">Multiplicar y bajar</td>';
+    resultado.proceso[1].forEach(p => html += '<td>' + p.toString() + '</td>');
+    html += '</tr><tr><td class="divisor-cell">Resultado (sumar)</td>';
+    resultado.resultado.forEach(r => html += '<td>' + r.toString() + '</td>');
+    html += '</tr></table>';
+
+    html += '<div class="final-result">';
+    html += '<p><strong>Cociente:</strong> ';
+    
+    let cocienteStr = '';
+    for (let i = 0; i < resultado.cociente.length; i++) {
+        const exp = resultado.cociente.length - 1 - i;
+        const coef = resultado.cociente[i];
+        if (coef.real !== 0 || coef.imag !== 0) {
+            if (cocienteStr && (coef.real > 0 || (coef.real === 0 && coef.imag > 0))) cocienteStr += ' + ';
+            cocienteStr += '(' + coef.toString() + ')';
+            if (exp > 0) {
+                cocienteStr += 'x';
+                if (exp > 1) cocienteStr += '<sup>' + exp + '</sup>';
+            }
+        }
+    }
+    html += cocienteStr || '0';
+    html += '</p><p><strong>Residuo:</strong> ' + resultado.residuo.toString() + '</p>';
+    
+    if (resultado.residuo.esReal() && Math.abs(resultado.residuo.real) < 1e-10) {
+        html += '<p style="color: #00ff88; font-weight: 600;">✓ La división es exacta (residuo = 0)</p>';
+    }
+
+    html += '</div>';
+    document.getElementById('resultado').innerHTML = html;
+    document.getElementById('resultado').classList.add('show');
+}
+
+</script>
+</body>
+</html>
